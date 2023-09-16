@@ -11,17 +11,17 @@ class EditAgent(private val agentName: MutableList<String>, private val lineNumb
     var line : String? = null
 
     override fun menuList() {
-        println("                                                  ")
+        println("                                                ")
         println("================================================")
-        println("                                                  ")
-        println("                ${agentName[0]} 관리             ")
+        println("                                                ")
+        println("                  ${agentName[0]} 관리           ")
         println("          원하는 메뉴의 숫자를 입력해주세요           ")
         println("                 1. 수정 하기                    ")
         println("                 2. 삭제 하기                    ")
         println("                 3. 뒤로 가기                    ")
-        println("                                                  ")
+        println("                                                ")
         println("================================================")
-        println("                                                  ")
+        println("                                                ")
     }
 
     override fun menuSelect() {
@@ -47,11 +47,11 @@ class EditAgent(private val agentName: MutableList<String>, private val lineNumb
             if (lineNumber >= 0 && lineNumber < lines.size) {
                 lines.removeAt(lineNumber)
                 println("                                                  ")
-                println("소속사 ${agentName[0]} 정보를 삭제했습니다.")
+                println("      소속사 ${agentName[0]} 정보를 삭제했습니다.")
                 println("                                                  ")
 
             } else {
-                println("유효하지 않은 인덱스입니다.")
+                println("      유효하지 않은 인덱스입니다.")
                 exitProcess(1)
             }
 
@@ -71,7 +71,7 @@ class EditAgent(private val agentName: MutableList<String>, private val lineNumb
         println("                                                ")
         println("================================================")
         println("                                                ")
-        println("              ${agentName[0]} 그룹 수정           ")
+        println("                ${agentName[0]} 그룹 수정         ")
         println("          원하는 메뉴의 숫자를 입력해주세요           ")
         println("                  1. 회사명                      ")
         println("                  2. 주소                        ")
@@ -92,11 +92,11 @@ class EditAgent(private val agentName: MutableList<String>, private val lineNumb
 
         when (line) {
             "1" -> { /* 회사명 수정 */
-                println("수정할 회사명을 입력하세요.")
+                println("      수정할 회사명을 입력하세요.")
                 val modifyName: String = ConsoleReader.consoleScanner()
                 if (lineNumber >= 0 && lineNumber < lines.size) {
                     lines[lineNumber] = "${modifyName}:${agentName[1]}:${agentName[2]}:${agentName[3]}"
-                    println("회사명을 $modifyName 으로 수정했습니다.")
+                    println("      회사명을 $modifyName 으로 수정했습니다.")
                 } else {
                     println("유효하지 않은 인덱스입니다.")
                     exitProcess(1)
@@ -111,11 +111,11 @@ class EditAgent(private val agentName: MutableList<String>, private val lineNumb
             }
 
             "2" -> { /* 데뷔일 수정 */
-                println("수정할 주소를 입력하세요.")
+                println("      수정할 주소를 입력하세요.")
                 val modifyAddress: String = ConsoleReader.consoleScanner()
                 if (lineNumber >= 0 && lineNumber < lines.size) {
                     lines[lineNumber] = "${agentName[0]}:${modifyAddress}:${agentName[2]}:${agentName[3]}"
-                    println("주소를 $modifyAddress 으로 수정했습니다.")
+                    println("      주소를 $modifyAddress 으로 수정했습니다.")
                 } else {
                     println("유효하지 않은 인덱스입니다.")
                     exitProcess(1)
@@ -130,11 +130,11 @@ class EditAgent(private val agentName: MutableList<String>, private val lineNumb
             }
 
             "3" -> { /* CEO 수정 */
-                println("수정할 CEO를 입력하세요.")
+                println("      수정할 CEO를 입력하세요.")
                 val modifyCEO: String = ConsoleReader.consoleScanner()
                 if (lineNumber >= 0 && lineNumber < lines.size) {
                     lines[lineNumber] = "${agentName[0]}:${agentName[1]}:${modifyCEO}:${agentName[3]}"
-                    println("CEO를 $modifyCEO 으로 수정했습니다.")
+                    println("      CEO를 $modifyCEO 으로 수정했습니다.")
                 } else {
                     println("유효하지 않은 인덱스입니다.")
                     exitProcess(1)
@@ -148,11 +148,11 @@ class EditAgent(private val agentName: MutableList<String>, private val lineNumb
                 }
             }
             "4" -> { /* 전화번호 수정 */
-                println("수정할 CEO를 입력하세요.")
+                println("      수정할 CEO를 입력하세요.")
                 val modifyTel: String = ConsoleReader.consoleScanner()
                 if (lineNumber >= 0 && lineNumber < lines.size) {
                     lines[lineNumber] = "${agentName[0]}:${agentName[1]}:${agentName[2]}:${modifyTel}"
-                    println("전화번호를 $modifyTel 으로 수정했습니다.")
+                    println("      전화번호를 $modifyTel 으로 수정했습니다.")
                 } else {
                     println("유효하지 않은 인덱스입니다.")
                     exitProcess(1)
@@ -166,7 +166,7 @@ class EditAgent(private val agentName: MutableList<String>, private val lineNumb
                 }
             }
             "5" -> return
-            else -> println("")
+            else -> println("올바른 메뉴 번호를 선택해주세요.")
         }
     }
 }
