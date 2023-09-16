@@ -4,9 +4,11 @@ import kotlinx.coroutines.runBlocking
 import pairExample.common.ConsoleReader
 import java.io.*
 
+private const val filePath = "src/charsFiles/idolList.dat"
+private const val filePathAgent = "src/charsFiles/agentList.dat"
+
 class IdolManagement: ManagementInterface {
     var line: String? = null
-    private val filePath = "src/charsFiles/idolList.dat"
 
     override fun menuList() {
         println("                                                  ")
@@ -45,12 +47,28 @@ class IdolManagement: ManagementInterface {
         println("멤버를 콤마(,)로 입력하세요. (ex:민지,하니,다니엘,해린,혜인)")
         line = ConsoleReader.consoleScanner()
         val idolMember: List<String> = line!!.split(",")
-        val inputIdol = IdolInfo(idolName,idolDebut,idolMember)
+        // val idolAgent
+        println("소속사를 입력하세요.")
+        val idolAgent: String = ConsoleReader.consoleScanner()
 
-        with(fileOut) {
-            write("${inputIdol.idolName}:${inputIdol.idolDebut}:${inputIdol.idolMember}")
-            newLine()
-            flush()
+        // 소속사 정보 파일에서 읽어오기
+        val agents = readAgentsFromFile()
+
+        // 입력받은 소속사 이름으로 소속사 객체 찾기
+        val agent = agents.find { it.agentName == idolAgent }
+        if (agent != null) {
+            // 소속사가 존재하는 경우에만 아이돌 등록
+            val idolInfo = IdolInfo(idolName, idolDebut, idolMember, idolAgent)
+
+            with(fileOut) {
+                write("${idolInfo.idolName}:${idolInfo.idolDebut}:${idolInfo.idolMember}:${idolInfo.agent}")
+                newLine()
+                flush()
+            }
+            println("아이돌이 성공적으로 등록되었습니다.")
+        } else {
+            println("입력한 소속사가 존재하지 않습니다. 아이돌 등록을 취소합니다.")
+            return@runBlocking
         }
     }
 
@@ -113,4 +131,26 @@ class IdolManagement: ManagementInterface {
             println("예외 발생 : ${e.message}")
         }
     }
+}
+
+// 소속사 정보 파일에서 읽어오는 함수
+private fun readAgentsFromFile(): List<AgentInfo> {
+    val agents = mutableListOf<AgentInfo>()
+    try {
+        val fileIn = BufferedReader(FileReader(filePathAgent))
+        fileIn.use { reader ->
+            var resultLine: String? = fileIn.readLine()
+            while (resultLine != null) {
+                val agentInfo = resultLine.split(":")
+                if (agentInfo.size == 4) {
+                    val agent = AgentInfo(agentInfo[0], agentInfo[1], agentInfo[2], agentInfo[3])
+                    agents.add(agent)
+                }
+                resultLine = fileIn.readLine()
+            }
+        }
+    } catch (e: IOException) {
+        println("예외 발생 : ${e.message}")
+    }
+    return agents
 }
