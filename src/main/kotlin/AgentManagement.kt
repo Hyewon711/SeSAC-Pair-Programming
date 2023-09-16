@@ -63,7 +63,7 @@ class AgentManagement: ManagementInterface {
                 if (resultLine == null) {
                     println("                                                  ")
                     println("                                                  ")
-                    println("        등록된 소속사 정보가 존재하지 않습니다.           ")
+                    println("        등록된 소속사 정보가 존재하지 않습니다.          ")
                     println("                                                  ")
                     println("                                                  ")
                 }
@@ -94,7 +94,7 @@ class AgentManagement: ManagementInterface {
                     /* AgentInfo[0]은 회사명 */
                     if (agentInfo[0].trim() == line){
                         flag = true
-                        println("$agentInfo")
+                        println("회사명: ${agentInfo[0]} | 회사주소: ${agentInfo[1]} | CEO: ${agentInfo[2]} | TEL: ${agentInfo[3]}")
                         EditAgent(agentInfo, lineNumber-1).menuList()
                         EditAgent(agentInfo, lineNumber-1).menuSelect()
                         break
