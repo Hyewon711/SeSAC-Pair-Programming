@@ -6,7 +6,6 @@ import java.io.*
 
 private const val filePath = "src/charsFiles/idolList.dat"
 private const val filePathAgent = "src/charsFiles/agentList.dat"
-private const val filePathEvent = "src/charsFiles/eventList.dat"
 
 class IdolManagement: ManagementInterface {
     var line: String? = null
@@ -114,19 +113,7 @@ class IdolManagement: ManagementInterface {
                     /* idolInfo[0]은 그룹명 */
                     if (idolInfo[0].trim() == line){
                         flag = true
-                        println("그룹명: ${idolInfo[0]} | 데뷔일: ${idolInfo[1]} | 멤버: ${idolInfo[2]} | 소속사: ${idolInfo[3]}")
-
-                        val events = readEventsFromFile() // 해당 그룹의 행사 정보 읽어오기
-                        for (event in events) {
-                            // 행사의 guest를 읽어온 후, String을 List로 변환한다.
-                            val eventGuest = event.eventGuest.split(",").toMutableList()
-                            // 변환한 리스트에서 그룹명과 일치하는 항목이 하나라도 해당된다면 해당 행사 출력
-                            if (eventGuest.contains(idolInfo[0])) {
-                                println("출연 행사명: ${event.eventName} | 일자: ${event.eventDate}")
-                            } else {
-                                println("출연 예정 행사가 없습니다.")
-                            }
-                        }
+                        println("$idolInfo")
                         EditIdol(idolInfo, lineNumber-1).menuList()
                         EditIdol(idolInfo, lineNumber-1).menuSelect()
                         break
@@ -146,7 +133,7 @@ class IdolManagement: ManagementInterface {
     }
 }
 
-/* agentList.dat 파일에서 읽어오는 함수 */
+// 소속사 정보 파일에서 읽어오는 함수
 private fun readAgentsFromFile(): List<AgentInfo> {
     val agents = mutableListOf<AgentInfo>()
     try {
@@ -166,26 +153,4 @@ private fun readAgentsFromFile(): List<AgentInfo> {
         println("예외 발생 : ${e.message}")
     }
     return agents
-}
-
-/* eventList.dat 파일에서 읽어오는 함수 */
-private fun readEventsFromFile(): List<EventInfo> {
-    val events = mutableListOf<EventInfo>()
-    try {
-        val fileIn = BufferedReader(FileReader(filePathEvent))
-        fileIn.use { reader ->
-            var resultLine: String? = fileIn.readLine()
-            while (resultLine != null) {
-                val eventInfo = resultLine.split(":")
-                if (eventInfo.size == 3) {
-                    val event = EventInfo(eventInfo[0], eventInfo[1], eventInfo[2])
-                    events.add(event)
-                }
-                resultLine = fileIn.readLine()
-            }
-        }
-    } catch (e: IOException) {
-        println("예외 발생 : ${e.message}")
-    }
-    return events
 }
