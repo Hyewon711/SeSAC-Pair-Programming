@@ -13,17 +13,15 @@ class IdolManagement: ManagementInterface {
 
     override fun menuList() {
         println("                                                  ")
-        println("================================================")
+        println("=============================================================")
         println("                                                  ")
-        println("                  아이돌 관리                     ")
-        println("          원하는 메뉴의 숫자를 입력해주세요           ")
-        println("                 1. 등록 하기                    ")
-        println("                 2. 목록 보기                    ")
-        println("                 3. 검색 하기                    ")
-        println("                 4. 뒤로 가기                     ")
+        println("                         아이돌 관리                     ")
+        println("                 원하는 메뉴의 숫자를 입력해주세요           ")
+        println()
+        println("   1. 등록 하기    2. 목록 보기    3. 검색 하기    4. 뒤로 가기 ")
         println("                                                  ")
-        println("================================================")
-        println("                                                  ")
+        println("=============================================================")
+
     }
 
     /* 아이돌 관리 메뉴 */
@@ -77,21 +75,25 @@ class IdolManagement: ManagementInterface {
     override fun read() = runBlocking {
         try {
             val fileIn = BufferedReader(FileReader(filePath))
+            var cnt = 1
             fileIn.use { reader ->
-                println("=================== 관리 목록 ===================")
+                println("========================= 관리 목록 ==========================")
+                println(" No. / 그룹명 / 데뷔일 / 멤버")
                 var resultLine: String? = fileIn.readLine()
                 if (resultLine == null) {
                     println("                                                  ")
                     println("                                                  ")
-                    println("          등록된 그룹정보가 존재하지 않습니다.          ")
+                    println("               등록된 그룹정보가 존재하지 않습니다.          ")
                     println("                                                  ")
                     println("                                                  ")
                 }
                 while (resultLine != null) {
-                    println(resultLine)
+                    var resultLineList = resultLine!!.split(":").toMutableList()
+                    println(" $cnt / ${resultLineList[0]} / ${resultLineList[1]} / ${resultLineList[2]} / ${resultLineList[3]} ")
+                    cnt++
                     resultLine = fileIn.readLine()
                 }
-                println("================================================")
+                println("=============================================================")
             }
         } catch(e: IOException) {
             println("예외 발생 : ${e.message}")
@@ -100,7 +102,7 @@ class IdolManagement: ManagementInterface {
 
     /* 아이돌 검색하기 */
     override fun search() {
-        println("=============== 그룹명을 입력하세요 ===============")
+        println("===================== 그룹명을 입력하세요 ======================")
         line = ConsoleReader.consoleScanner()
         var flag = false // 일치 여부 flag
         var lineNumber = 0 // 입력한 그룹의 행 카운트
@@ -138,7 +140,7 @@ class IdolManagement: ManagementInterface {
                 if(!flag) {
                     println("일치하는 그룹이 존재하지 않습니다.")
                 }
-                println("================================================")
+                println("=============================================================")
             }
         } catch(e: IOException) {
             println("예외 발생 : ${e.message}")

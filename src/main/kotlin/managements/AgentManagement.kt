@@ -10,17 +10,16 @@ class AgentManagement: ManagementInterface {
 
     override fun menuList() {
         println("                                                ")
-        println("================================================")
+        println("=============================================================")
+        println("                                                        ")
+        println("                        소속사 관리                        ")
+        println("                원하는 메뉴의 숫자를 입력해주세요              ")
+        println("                                                         ")
+        println("   1. 등록 하기    2. 목록 보기    3. 검색 하기    4. 뒤로 가기 ")
+        println("                                                         ")
+        println("=============================================================")
         println("                                                ")
-        println("                  소속사 관리                     ")
-        println("          원하는 메뉴의 숫자를 입력해주세요           ")
-        println("                 1. 등록 하기                    ")
-        println("                 2. 목록 보기                    ")
-        println("                 3. 검색 하기                    ")
-        println("                 4. 뒤로 가기                    ")
-        println("                                                ")
-        println("================================================")
-        println("                                                ")
+
     }
 
     /* 소속사 관리 메뉴 */
@@ -57,8 +56,13 @@ class AgentManagement: ManagementInterface {
     override fun read() = runBlocking {
         try {
             val fileIn = BufferedReader(FileReader(filePath))
+            var cnt = 1
             fileIn.use { reader ->
-                println("=================== 관리 목록 ===================")
+
+                println("========================= 관리 목록 ==========================")
+                println(" No. / 소속사명 / 주소 / 대표 / 전화번호")
+
+
                 var resultLine: String? = fileIn.readLine()
                 if (resultLine == null) {
                     println("                                                  ")
@@ -68,10 +72,14 @@ class AgentManagement: ManagementInterface {
                     println("                                                  ")
                 }
                 while (resultLine != null) {
-                    println(resultLine)
+
+                    var resultLineList = resultLine!!.split(":").toMutableList()
+                    println(" $cnt / ${resultLineList[0]} / ${resultLineList[1]} / ${resultLineList[2]} / ${resultLineList[3]}")
+                    cnt++
                     resultLine = fileIn.readLine()
+
                 }
-                println("================================================")
+                println("============================================================")
             }
         } catch(e: IOException) {
             println("예외 발생 : ${e.message}")
@@ -80,7 +88,9 @@ class AgentManagement: ManagementInterface {
 
     /* 소속사 검색하기 */
     override fun search() {
-        println("=============== 회사명을 입력하세요 ===============")
+        println("=================== 소속사 이름을 입력하세요 ====================")
+
+
         line = ConsoleReader.consoleScanner()
         var flag = false // 일치 여부 flag
         var lineNumber = 0 // 입력한 그룹의 행 카운트
@@ -106,7 +116,7 @@ class AgentManagement: ManagementInterface {
                 if(!flag) {
                     println("일치하는 소속사가 존재하지 않습니다.")
                 }
-                println("================================================")
+                println("=============================================================")
             }
         } catch(e: IOException) {
             println("예외 발생 : ${e.message}")
